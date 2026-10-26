@@ -1,190 +1,338 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NikosComics – Dein Comic-Universum</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NikosComicks – Dein Comic-Universum</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     * { box-sizing: border-box; }
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #10101c;
-      color: white;
+      margin: 0; font-family: Arial, sans-serif;
+      background: #10101c; color: white;
     }
     header {
-      padding: 24px;
-      background: #19192b;
-      text-align: center;
+      padding: 24px; text-align: center; background: #19192b;
       border-bottom: 3px solid #ff3158;
     }
-    header h1 { margin: 0; font-size: 32px; }
-    header h1 span { color: #ff3158; }
+    h1 { margin: 0; font-size: 32px; }
+    h1 span { color: #ff3158; }
     nav { margin-top: 18px; }
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0 10px;
-    }
+    nav a { color: white; text-decoration: none; margin: 8px; }
     .hero {
-      padding: 65px 20px;
-      text-align: center;
+      padding: 50px 20px; text-align: center;
       background: linear-gradient(135deg, #25205a, #791b50);
     }
-    .hero h2 { font-size: 38px; margin: 0 0 15px; }
-    .hero p { font-size: 18px; line-height: 1.6; }
-    .search {
-      display: block;
-      width: min(90%, 500px);
-      padding: 14px;
-      margin: 25px auto 0;
-      border-radius: 10px;
-      border: 0;
-      font-size: 16px;
+    .hero h2 { font-size: 36px; }
+    main { max-width: 1100px; margin: auto; padding: 24px; }
+    input, textarea, button {
+      font: inherit; padding: 12px; border-radius: 8px;
     }
-    main { max-width: 1100px; margin: auto; padding: 25px; }
-    .categories {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 25px;
+    input, textarea {
+      width: 100%; margin: 6px 0 12px; border: 1px solid #555;
     }
-    .categories button, .comic button {
-      background: #ff3158;
-      border: 0;
-      padding: 11px 15px;
-      color: white;
-      font-weight: bold;
-      border-radius: 8px;
-      cursor: pointer;
+    button {
+      background: #ff3158; color: white; border: 0;
+      font-weight: bold; cursor: pointer; margin: 4px;
     }
-    h2.section { margin-top: 30px; }
+    button:hover { opacity: .85; }
+    .search { max-width: 500px; }
+    .panel {
+      background: #202035; border: 1px solid #35354b;
+      border-radius: 14px; padding: 20px; margin: 22px 0;
+    }
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-      gap: 18px;
+      gap: 16px;
     }
     .comic {
-      background: #202035;
-      border-radius: 14px;
-      padding: 20px;
-      border: 1px solid #35354b;
+      background: #202035; border: 1px solid #35354b;
+      border-radius: 14px; padding: 18px;
     }
     .cover {
-      height: 145px;
-      border-radius: 10px;
-      display: grid;
-      place-items: center;
-      font-size: 55px;
+      height: 130px; display: grid; place-items: center;
+      font-size: 52px; border-radius: 10px;
       background: linear-gradient(135deg, #422080, #ed3763);
     }
-    .comic h3 { margin-bottom: 8px; }
-    .comic p { color: #c6c6d7; }
-    .comic button { width: 100%; margin-top: 8px; }
-    .notice {
-      padding: 20px;
-      margin-top: 30px;
-      border-radius: 12px;
-      background: #202035;
-      line-height: 1.6;
-    }
-    footer {
-      text-align: center;
-      padding: 30px;
-      color: #c6c6d7;
-    }
+    .comic img { max-width: 100%; border-radius: 8px; }
+    .muted { color: #c6c6d7; }
+    #message { white-space: pre-wrap; }
+    footer { text-align: center; padding: 30px; color: #c6c6d7; }
+    [hidden] { display: none !important; }
   </style>
 </head>
 <body>
-  <header>
-    <h1>💥 Nikos<span>Comics</span> 📚</h1>
-    <nav>
-      <a href="#start">Start</a>
-      <a href="#comics">Comics</a>
-      <a href="#kategorien">Kategorien</a>
-      <a href="#community">Community</a>
-    </nav>
-  </header>
+<header>
+  <h1>💥 Nikos<span>Comicks</span> 📚</h1>
+  <nav>
+    <a href="#start">Start</a>
+    <a href="#comics">Comics</a>
+    <a href="#konto">Mein Konto</a>
+    <a href="#upload">Comic hochladen</a>
+  </nav>
+</header>
 
-  <section class="hero" id="start">
-    <h2>Dein eigenes Comic-Universum!</h2>
-    <p>Entdecke neue Welten, mutige Helden und spannende Geschichten.<br>
-    Finde deinen nächsten Lieblingscomic!</p>
-    <input class="search" id="search" placeholder="🔎 Comics suchen..." oninput="filterComics()">
+<section class="hero" id="start">
+  <h2>Dein eigenes Comic-Universum!</h2>
+  <p>Entdecke neue Welten, mutige Helden und spannende Geschichten.</p>
+  <input class="search" id="search" placeholder="🔎 Comics suchen..." aria-label="Comics suchen">
+</section>
+
+<main>
+  <section id="konto" class="panel">
+    <h2>🔐 Mein Konto</h2>
+    <p id="accountStatus" class="muted">Du bist noch nicht angemeldet.</p>
+    <div id="authForm">
+      <label for="email">E-Mail-Adresse</label>
+      <input id="email" type="email" autocomplete="email" placeholder="deine@email.de" required>
+      <label for="password">Passwort (mindestens 6 Zeichen)</label>
+      <input id="password" type="password" autocomplete="current-password" placeholder="Dein Passwort" required>
+      <button id="signup">Registrieren</button>
+      <button id="login">Anmelden</button>
+    </div>
+    <button id="logout" hidden>Abmelden</button>
+    <p id="message" role="status" class="muted"></p>
   </section>
 
-  <main>
-    <h2 class="section" id="kategorien">Entdecke deine Kategorien</h2>
-    <div class="categories">
-      <button onclick="choose('Alle')">Alle</button>
-      <button onclick="choose('Superhelden')">🦸 Superhelden</button>
-      <button onclick="choose('Manga')">🎌 Manga</button>
-      <button onclick="choose('Fantasy')">🐉 Fantasy</button>
-      <button onclick="choose('Humor')">😂 Humor</button>
-      <button onclick="choose('Abenteuer')">🗺️ Abenteuer</button>
-      <button onclick="choose('Science-Fiction')">🚀 Science-Fiction</button>
-    </div>
+  <section id="upload" class="panel">
+    <h2>📤 Deinen eigenen Comic hochladen</h2>
+    <p class="muted">Melde dich an, um eine Comic-Datei hochzuladen. Hochgeladene Comics bleiben zunächst privat.</p>
+    <label for="comicTitle">Titel</label>
+    <input id="comicTitle" maxlength="120" placeholder="Name deines Comics">
+    <label for="comicDescription">Beschreibung</label>
+    <textarea id="comicDescription" maxlength="1000" rows="3" placeholder="Worum geht es in deinem Comic?"></textarea>
+    <label for="comicFile">Comic-Datei (PDF, PNG oder JPG, maximal 10 MB)</label>
+    <input id="comicFile" type="file" accept=".pdf,.png,.jpg,.jpeg,application/pdf,image/png,image/jpeg">
+    <button id="uploadButton">Comic hochladen</button>
+    <p class="muted">Lade nur Dateien hoch, für die du die erforderlichen Rechte besitzt.</p>
+  </section>
 
-    <h2 class="section" id="comics">Beliebte Comics</h2>
+  <section id="comics">
+    <h2>📚 Entdecke Comics</h2>
     <div class="grid" id="comicGrid"></div>
+  </section>
 
-    <section class="notice" id="community">
-      <h2>🌟 Deine Geschichte gehört hierher!</h2>
-      <p>Du möchtest deine eigenen Comics veröffentlichen oder Fehler melden?
-      Die Community-Funktionen sind für einen späteren Ausbau vorgesehen.</p>
-      <p>Für echte Benutzerkonten, sichere Downloads und Uploads benötigen wir
-      noch einen Server und eine Datenbank.</p>
-    </section>
-  </main>
+  <section class="panel">
+    <h2>🌟 Deine Geschichte gehört hierher!</h2>
+    <p>Registriere dich, entdecke Comics und lade deine eigenen Werke hoch.</p>
+    <p>Du hast ein Problem? Melde dich beim Website-Betreiber, damit Fehler behoben werden können.</p>
+  </section>
+</main>
 
-  <footer>
-    © 2026 NikosComics · Dein eigenes Comic-Universum 💥
-  </footer>
+<footer>© 2026 NikosComicks · Dein eigenes Comic-Universum 💥</footer>
 
-  <script>
-    const comics = [
-      ["Sternenwächter", "Superhelden", "🦸"],
-      ["Die letzte Galaxie", "Science-Fiction", "🚀"],
-      ["Drachenmond", "Fantasy", "🐉"],
-      ["Lachflash!", "Humor", "😂"],
-      ["Der verlorene Tempel", "Abenteuer", "🗺️"],
-      ["Schattenkrieger", "Manga", "⚔️"],
-      ["Titanen der Stadt", "Superhelden", "💥"],
-      ["Neon Samurai", "Manga", "🎌"],
-      ["Das magische Portal", "Fantasy", "✨"],
-      ["Mission Mars", "Science-Fiction", "🪐"],
-      ["Chaos im Klassenzimmer", "Humor", "🤣"],
-      ["Dschungelgeheimnis", "Abenteuer", "🌴"]
+<script>
+(() => {
+  const SUPABASE_URL = "https://zpnnagblkqtvtnofooku.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_tIXZoF3L_z8LxUXQnnvq-Q_yNgcPwIw";
+  const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const samples = [
+    ["Sternenwächter", "Superhelden", "🦸"],
+    ["Die letzte Galaxie", "Science-Fiction", "🚀"],
+    ["Drachenmond", "Fantasy", "🐉"],
+    ["Lachflash!", "Humor", "😂"],
+    ["Der verlorene Tempel", "Abenteuer", "🗺️"],
+    ["Schattenkrieger", "Manga", "⚔️"],
+    ["Titanen der Stadt", "Superhelden", "💥"],
+    ["Neon Samurai", "Manga", "🎌"],
+    ["Das magische Portal", "Fantasy", "✨"],
+    ["Mission Mars", "Science-Fiction", "🪐"],
+    ["Chaos im Klassenzimmer", "Humor", "🤣"],
+    ["Dschungelgeheimnis", "Abenteuer", "🌴"]
+  ];
+
+  const $ = id => document.getElementById(id);
+  let currentUser = null;
+  let uploadedComics = [];
+
+  function message(text) { $("message").textContent = text; }
+
+  function renderComics() {
+    const query = $("search").value.trim().toLowerCase();
+    const items = [
+      ...samples.filter(c => c[0].toLowerCase().includes(query))
+        .map(c => ({ title: c[0], description: c[1], emoji: c[2] })),
+      ...uploadedComics.filter(c =>
+        (c.title + " " + (c.description || "")).toLowerCase().includes(query)
+      )
     ];
 
-    let category = "Alle";
-
-    function choose(value) {
-      category = value;
-      filterComics();
+    $("comicGrid").innerHTML = "";
+    if (!items.length) {
+      $("comicGrid").textContent = "Keine Comics gefunden.";
+      return;
     }
 
-    function filterComics() {
-      const query = document.getElementById("search").value.toLowerCase();
-      const filtered = comics.filter(c =>
-        (category === "Alle" || c[1] === category) &&
-        c[0].toLowerCase().includes(query)
-      );
+    items.forEach(c => {
+      const article = document.createElement("article");
+      article.className = "comic";
+      const cover = document.createElement("div");
+      cover.className = "cover";
+      cover.textContent = c.emoji || "📖";
+      article.appendChild(cover);
 
-      document.getElementById("comicGrid").innerHTML =
-        filtered.map(c => `
-          <article class="comic">
-            <div class="cover">${c[2]}</div>
-            <h3>${c[0]}</h3>
-            <p>${c[1]}</p>
-            <button onclick="alert('Dies ist eine Comic-Demo. Echte Downloads folgen später.')">
-              Comic ansehen
-            </button>
-          </article>
-        `).join("") || "<p>Keine Comics gefunden.</p>";
+      const title = document.createElement("h3");
+      title.textContent = c.title;
+      article.appendChild(title);
+
+      const desc = document.createElement("p");
+      desc.className = "muted";
+      desc.textContent = c.description || "Eigener Comic";
+      article.appendChild(desc);
+
+      if (c.url) {
+        const link = document.createElement("a");
+        link.href = c.url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "Eigenen Comic öffnen";
+        link.style.color = "white";
+        article.appendChild(link);
+      } else {
+        const note = document.createElement("p");
+        note.className = "muted";
+        note.textContent = "Demo-Comics – noch keine echten Comic-Dateien.";
+        article.appendChild(note);
+      }
+      $("comicGrid").appendChild(article);
+    });
+  }
+
+  async function refreshAccount() {
+    const { data, error } = await db.auth.getSession();
+    if (error) message("Kontostatus konnte nicht geladen werden: " + error.message);
+    currentUser = data.session?.user || null;
+    $("accountStatus").textContent = currentUser
+      ? "Angemeldet als " + currentUser.email
+      : "Du bist noch nicht angemeldet.";
+    $("authForm").hidden = !!currentUser;
+    $("logout").hidden = !currentUser;
+    $("uploadButton").disabled = !currentUser;
+    if (currentUser) await loadMyComics();
+    else {
+      uploadedComics = [];
+      renderComics();
+    }
+  }
+
+  async function loadMyComics() {
+    const { data, error } = await db.from("comics")
+      .select("id,title,description,file_path,created_at")
+      .eq("user_id", currentUser.id)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      message("Deine Comics konnten nicht geladen werden: " + error.message);
+      return;
     }
 
-    filterComics();
-  </script>
+    const list = [];
+    for (const c of (data || [])) {
+      const { data: signed, error: fileError } = await db.storage
+        .from("comics")
+        .createSignedUrl(c.file_path, 3600);
+      list.push({
+        ...c,
+        url: fileError ? null : signed.signedUrl,
+        emoji: "📖"
+      });
+    }
+    uploadedComics = list;
+    renderComics();
+  }
+
+  $("signup").addEventListener("click", async () => {
+    const email = $("email").value.trim();
+    const password = $("password").value;
+    if (!email || password.length < 6) {
+      message("Bitte gib eine gültige E-Mail-Adresse und ein Passwort mit mindestens 6 Zeichen ein.");
+      return;
+    }
+    const { data, error } = await db.auth.signUp({ email, password });
+    if (error) return message("Registrierung fehlgeschlagen: " + error.message);
+    if (data.session) {
+      message("Registrierung erfolgreich!");
+      await refreshAccount();
+    } else {
+      message("Bitte bestätige deine E-Mail über den Link, den Supabase dir schickt. Danach kannst du dich anmelden.");
+    }
+  });
+
+  $("login").addEventListener("click", async () => {
+    const email = $("email").value.trim();
+    const password = $("password").value;
+    const { error } = await db.auth.signInWithPassword({ email, password });
+    if (error) return message("Anmeldung fehlgeschlagen: " + error.message);
+    message("Du bist angemeldet!");
+    await refreshAccount();
+  });
+
+  $("logout").addEventListener("click", async () => {
+    const { error } = await db.auth.signOut();
+    if (error) return message("Abmeldung fehlgeschlagen: " + error.message);
+    message("Du wurdest abgemeldet.");
+    await refreshAccount();
+  });
+
+  $("uploadButton").addEventListener("click", async () => {
+    if (!currentUser) return message("Bitte melde dich zuerst an.");
+    const title = $("comicTitle").value.trim();
+    const description = $("comicDescription").value.trim();
+    const file = $("comicFile").files[0];
+
+    if (!title || !file) return message("Bitte gib einen Titel ein und wähle eine Datei aus.");
+    if (file.size > 10 * 1024 * 1024) return message("Die Datei ist größer als 10 MB.");
+    if (!["application/pdf", "image/png", "image/jpeg"].includes(file.type)) {
+      return message("Bitte wähle eine PDF-, PNG- oder JPG-Datei.");
+    }
+
+    $("uploadButton").disabled = true;
+    message("Comic wird hochgeladen …");
+
+    try {
+      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+      const path = currentUser.id + "/" + crypto.randomUUID() + "-" + safeName;
+      const { error: uploadError } = await db.storage
+        .from("comics")
+        .upload(path, file, { contentType: file.type, upsert: false });
+
+      if (uploadError) throw uploadError;
+
+      const { error: insertError } = await db.from("comics").insert({
+        title,
+        description,
+        user_id: currentUser.id,
+        file_path: path,
+        published: false
+      });
+
+      if (insertError) {
+        await db.storage.from("comics").remove([path]);
+        throw insertError;
+      }
+
+      $("comicTitle").value = "";
+      $("comicDescription").value = "";
+      $("comicFile").value = "";
+      message("Comic erfolgreich hochgeladen! Er ist zunächst nur für dich sichtbar.");
+      await loadMyComics();
+    } catch (err) {
+      message("Upload fehlgeschlagen: " + (err.message || "Bitte überprüfe deine Supabase-Berechtigungen."));
+    } finally {
+      $("uploadButton").disabled = !currentUser;
+    }
+  });
+
+  $("search").addEventListener("input", renderComics);
+  db.auth.onAuthStateChange(() => {
+    setTimeout(() => refreshAccount(), 0);
+  });
+  renderComics();
+  refreshAccount();
+})();
+</script>
 </body>
 </html>
