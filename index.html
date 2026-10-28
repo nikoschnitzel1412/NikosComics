@@ -7,20 +7,37 @@
 <title>NikosComicks – Dein Comic-Universum</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#10101c;color:white}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#10101c;color:white}
 header{padding:24px;text-align:center;background:#19192b;border-bottom:3px solid #ff3158}
-h1{margin:0;font-size:32px}h1 span{color:#ff3158}nav{margin-top:18px}nav a{color:white;text-decoration:none;margin:8px}
-.hero{padding:42px 20px;text-align:center;background:linear-gradient(135deg,#25205a,#791b50)}.hero h2{font-size:34px}
-main{max-width:1100px;margin:auto;padding:24px}input,textarea,button{font:inherit;padding:11px;border-radius:8px}
+h1{margin:0;font-size:32px}
+h1 span{color:#ff3158}
+nav{margin-top:18px}
+nav a{color:white;text-decoration:none;margin:8px}
+.hero{padding:42px 20px;text-align:center;background:linear-gradient(135deg,#25205a,#791b50)}
+.hero h2{font-size:34px}
+main{max-width:1100px;margin:auto;padding:24px}
+input,textarea,button{font:inherit;padding:11px;border-radius:8px}
 input,textarea{width:100%;margin:6px 0 12px;border:1px solid #555;background:#fff;color:#111}
-button{background:#ff3158;color:white;border:0;font-weight:bold;cursor:pointer;margin:4px}button:hover{opacity:.86}button:disabled{opacity:.5;cursor:not-allowed}
+button{background:#ff3158;color:white;border:0;font-weight:bold;cursor:pointer;margin:4px}
+button:hover{opacity:.86}
+button:disabled{opacity:.5;cursor:not-allowed}
 .panel,.comic{background:#202035;border:1px solid #35354b;border-radius:14px;padding:18px;margin:22px 0}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}.comic{margin:0;overflow-wrap:anywhere}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.comic{margin:0;overflow-wrap:anywhere}
 .cover{min-height:100px;display:grid;place-items:center;font-size:46px;border-radius:10px;background:linear-gradient(135deg,#422080,#ed3763)}
-.muted{color:#c6c6d7}#message{white-space:pre-wrap}.search{max-width:500px}.comic-actions{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin-top:10px}
-.comic-actions button{font-size:14px}.comment-list{padding-left:18px}.comment-list li{margin:8px 0;overflow-wrap:anywhere}.status{font-size:13px;color:#c6c6d7}
-footer{text-align:center;padding:30px;color:#c6c6d7}[hidden]{display:none!important}
-.switch-row{display:flex;gap:10px;align-items:center;margin:10px 0}.switch-row input{width:auto;margin:0}
+.muted{color:#c6c6d7}
+#message{white-space:pre-wrap}
+.search{max-width:500px}
+.comic-actions{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin-top:10px}
+.comic-actions button{font-size:14px}
+.comment-list{padding-left:18px}
+.comment-list li{margin:8px 0;overflow-wrap:anywhere}
+.status{font-size:13px;color:#c6c6d7}
+footer{text-align:center;padding:30px;color:#c6c6d7}
+[hidden]{display:none!important}
+.switch-row{display:flex;gap:10px;align-items:center;margin:10px 0}
+.switch-row input{width:auto;margin:0}
 </style>
 </head>
 <body>
@@ -28,31 +45,59 @@ footer{text-align:center;padding:30px;color:#c6c6d7}[hidden]{display:none!import
 <h1>💥 Nikos<span>Comicks</span> 📚</h1>
 <nav><a href="#start">Start</a><a href="#comics">Comics</a><a href="#konto">Mein Konto</a><a href="#upload">Comic hochladen</a></nav>
 </header>
+
 <section class="hero" id="start">
-<h2>Dein eigenes Comic-Universum!</h2><p>Entdecke neue Welten, mutige Helden und spannende Geschichten.</p>
+<h2>Dein eigenes Comic-Universum!</h2>
+<p>Entdecke neue Welten, mutige Helden und spannende Geschichten.</p>
 <input class="search" id="search" placeholder="🔎 Comics suchen..." aria-label="Comics suchen">
 </section>
+
 <main>
 <section id="konto" class="panel">
-<h2>🔐 Mein Konto</h2><p id="accountStatus" class="muted">Du bist noch nicht angemeldet.</p>
+<h2>🔐 Mein Konto</h2>
+<p id="accountStatus" class="muted">Du bist noch nicht angemeldet.</p>
 <div id="authForm">
-<label for="email">E-Mail-Adresse</label><input id="email" type="email" autocomplete="email" placeholder="deine@email.de">
-<label for="password">Passwort (mindestens 6 Zeichen)</label><input id="password" type="password" autocomplete="current-password" placeholder="Dein Passwort">
-<button id="signup">Registrieren</button><button id="login">Anmelden</button>
+<label for="username">Dein Benutzername</label>
+<input id="username" type="text" maxlength="30" autocomplete="nickname" placeholder="Dein gewünschter Name">
+<label for="email">E-Mail-Adresse</label>
+<input id="email" type="email" autocomplete="email" placeholder="deine@email.de">
+<label for="password">Passwort (mindestens 6 Zeichen)</label>
+<input id="password" type="password" autocomplete="current-password" placeholder="Dein Passwort">
+<button id="signup">Registrieren</button>
+<button id="login">Anmelden</button>
 </div>
-<button id="logout" hidden>Abmelden</button><p id="message" role="status" class="muted"></p>
+<button id="logout" hidden>Abmelden</button>
+<p id="message" role="status" class="muted"></p>
 </section>
+
 <section id="upload" class="panel">
-<h2>📤 Deinen eigenen Comic hochladen</h2><p class="muted">Melde dich an, um eine Comic-Datei hochzuladen. Du kannst später öffentlich oder privat einstellen.</p>
-<label for="comicTitle">Titel</label><input id="comicTitle" maxlength="120" placeholder="Name deines Comics">
-<label for="comicDescription">Beschreibung</label><textarea id="comicDescription" maxlength="1000" rows="3" placeholder="Worum geht es in deinem Comic?"></textarea>
-<label for="comicFile">Comic-Datei (PDF, PNG oder JPG, maximal 10 MB)</label><input id="comicFile" type="file" accept=".pdf,.png,.jpg,.jpeg,application/pdf,image/png,image/jpeg">
-<button id="uploadButton">Comic hochladen</button><p class="muted">Lade nur Dateien hoch, für die du die erforderlichen Rechte besitzt.</p>
+<h2>📤 Deinen eigenen Comic hochladen</h2>
+<p class="muted">Melde dich an, um eine Comic-Datei hochzuladen. Du kannst später öffentlich oder privat einstellen.</p>
+<label for="comicTitle">Titel</label>
+<input id="comicTitle" maxlength="120" placeholder="Name deines Comics">
+<label for="comicDescription">Beschreibung</label>
+<textarea id="comicDescription" maxlength="1000" rows="3" placeholder="Worum geht es in deinem Comic?"></textarea>
+<label for="comicFile">Comic-Datei (PDF, PNG oder JPG, maximal 10 MB)</label>
+<input id="comicFile" type="file" accept=".pdf,.png,.jpg,.jpeg,application/pdf,image/png,image/jpeg">
+<button id="uploadButton">Comic hochladen</button>
+<p class="muted">Lade nur Dateien hoch, für die du die erforderlichen Rechte besitzt.</p>
 </section>
-<section id="comics"><h2>📚 Öffentliche Comics & Beispiel-Comics</h2><p class="muted">Beispielideen zum Entdecken. Diese Karten enthalten noch keine fertigen Comic-Dateien.</p><div class="grid" id="publicGrid"></div></section>
-<section class="panel" id="myCollection"><h2>🗂️ Meine Comics</h2><p class="muted">Hier kannst du deine Comics öffnen, löschen und zwischen öffentlich und privat umschalten.</p><div class="grid" id="myGrid"></div></section>
+
+<section id="comics">
+<h2>📚 Öffentliche Comics</h2>
+<p class="muted">Hier erscheinen Comics, deren Besitzer sie auf öffentlich gestellt haben.</p>
+<div class="grid" id="publicGrid"></div>
+</section>
+
+<section class="panel" id="myCollection">
+<h2>🗂️ Meine Comics</h2>
+<p class="muted">Hier kannst du deine Comics öffnen, löschen und zwischen öffentlich und privat umschalten.</p>
+<div class="grid" id="myGrid"></div>
+</section>
 </main>
+
 <footer>© 2026 NikosComicks · Dein eigenes Comic-Universum 💥</footer>
+
 <script>
 (() => {
 const SUPABASE_URL = "https://zpnnagblkqtvtnofooku.supabase.co";
@@ -72,148 +117,254 @@ const demoTitles = [
 {category:"Mystery & Horror",emoji:"👻",titles:["Das Haus ohne Türen","Flüstern um Mitternacht","Der Schatten im Spiegel","Zimmer 13","Das Geheimnis des alten Zuges","Die verschwundene Klasse","Nebel über Ravenhill","Der letzte Anruf","Die Maske im Keller","Spuren im Dunkeln"]},
 {category:"Sport",emoji:"🏆",titles:["Das letzte Tor","Team Blitz","Streetball-Träume","Der schnellste Läufer","Kapitän für einen Tag","Aufschlag zum Sieg","Skatepark-Legenden","Der Underdog","Das große Finale","Ein Team, ein Ziel"]}
 ];
-const demoComics = demoTitles.flatMap(g=>g.titles.map(title=>({title,description:g.category+" · Beispielidee für NikosComicks",emoji:g.emoji,demo:true})));
+
+const demoComics = demoTitles.flatMap(group => group.titles.map(title => ({
+title,description:group.category+" · Beispielidee für NikosComicks",emoji:group.emoji,demo:true
+})));
 
 function message(text){$("message").textContent=text;}
-function safeEl(tag,text,cls){const el=document.createElement(tag);if(cls)el.className=cls;el.textContent=text;return el;}
+function safeEl(tag,text,cls){
+const el=document.createElement(tag);
+if(cls)el.className=cls;
+el.textContent=text;
+return el;
+}
 
 function comicCard(c,own){
- const article=document.createElement("article");article.className="comic";
- article.appendChild(safeEl("div",c.emoji||"📖","cover"));
- article.appendChild(safeEl("h3",c.title));
- article.appendChild(safeEl("p",c.description||"Keine Beschreibung","muted"));
- if(c.demo){article.appendChild(safeEl("p","📝 Beispiel-Comic · Noch keine echte Comic-Datei vorhanden","status"));return article;}
- if(own){
-  const visibility=document.createElement("label");visibility.className="switch-row";
-  const toggle=document.createElement("input");toggle.type="checkbox";toggle.checked=!!c.published;
-  toggle.addEventListener("change",()=>setPublished(c,toggle.checked,toggle));
-  visibility.append(toggle,safeEl("span",c.published?"Öffentlich":"Privat"));article.appendChild(visibility);
- }
- const actions=document.createElement("div");actions.className="comic-actions";
- const open=document.createElement("button");open.textContent="Comic ansehen";open.addEventListener("click",()=>openComic(c));actions.appendChild(open);
- if(!own){
-  const like=document.createElement("button");like.textContent="👍 Like";like.addEventListener("click",()=>react(c,1));actions.appendChild(like);
-  const dislike=document.createElement("button");dislike.textContent="👎 Dislike";dislike.addEventListener("click",()=>react(c,-1));actions.appendChild(dislike);
-  actions.appendChild(safeEl("span",`👍 ${c.likes||0} · 👎 ${c.dislikes||0}`,"status"));
- }else{
-  const del=document.createElement("button");del.textContent="🗑️ Comic löschen";del.addEventListener("click",()=>deleteComic(c));actions.appendChild(del);
-  actions.appendChild(safeEl("span",c.published?"Öffentlich sichtbar":"Nur für dich sichtbar","status"));
- }
- article.appendChild(actions);
- if(!own&&c.published){
-  article.appendChild(safeEl("h4","💬 Kommentare"));
-  const list=document.createElement("ul");list.className="comment-list";
-  (c.comments||[]).forEach(cm=>{const li=document.createElement("li");li.appendChild(safeEl("strong","Nutzer"));li.appendChild(document.createTextNode(": "+cm.body));list.appendChild(li);});
-  if(!(c.comments||[]).length)list.appendChild(safeEl("li","Noch keine Kommentare."));
-  article.appendChild(list);
-  const field=document.createElement("textarea");field.rows=2;field.maxLength=1000;field.placeholder="Schreibe einen Kommentar …";article.appendChild(field);
-  const send=document.createElement("button");send.textContent="Kommentar senden";send.addEventListener("click",()=>addComment(c,field,send));article.appendChild(send);
- }
- return article;
+const article=document.createElement("article");
+article.className="comic";
+article.appendChild(safeEl("div","📖","cover"));
+article.appendChild(safeEl("h3",c.title));
+article.appendChild(safeEl("p",c.description||"Keine Beschreibung","muted"));
+
+if(c.demo){
+article.appendChild(safeEl("p","Beispiel-Comic · Noch keine echte Comic-Datei vorhanden","status"));
+return article;
 }
+
+if(own){
+const visibility=document.createElement("label");
+visibility.className="switch-row";
+const toggle=document.createElement("input");
+toggle.type="checkbox";
+toggle.checked=!!c.published;
+toggle.addEventListener("change",()=>setPublished(c,toggle.checked,toggle));
+visibility.append(toggle,safeEl("span",c.published?"Öffentlich":"Privat"));
+article.appendChild(visibility);
+}
+
+const actions=document.createElement("div");
+actions.className="comic-actions";
+const open=document.createElement("button");
+open.textContent="Comic ansehen";
+open.addEventListener("click",()=>openComic(c));
+actions.appendChild(open);
+
+if(!own){
+const like=document.createElement("button");
+like.textContent="👍 Like";
+like.addEventListener("click",()=>react(c,1));
+actions.appendChild(like);
+const dislike=document.createElement("button");
+dislike.textContent="👎 Dislike";
+dislike.addEventListener("click",()=>react(c,-1));
+actions.appendChild(dislike);
+actions.appendChild(safeEl("span",`👍 ${c.likes||0} · 👎 ${c.dislikes||0}`,"status"));
+}else{
+const del=document.createElement("button");
+del.textContent="🗑️ Comic löschen";
+del.addEventListener("click",()=>deleteComic(c));
+actions.appendChild(del);
+actions.appendChild(safeEl("span",c.published?"Öffentlich sichtbar":"Nur für dich sichtbar","status"));
+}
+article.appendChild(actions);
+
+if(!own&&c.published){
+article.appendChild(safeEl("h4","💬 Kommentare"));
+const list=document.createElement("ul");
+list.className="comment-list";
+
+(c.comments||[]).forEach(cm=>{
+const li=document.createElement("li");
+li.appendChild(safeEl("strong",cm.author_name||"Nutzer"));
+li.appendChild(document.createTextNode(": "+cm.body));
+list.appendChild(li);
+});
+
+if(!(c.comments||[]).length)list.appendChild(safeEl("li","Noch keine Kommentare."));
+article.appendChild(list);
+
+const field=document.createElement("textarea");
+field.rows=2;
+field.maxLength=1000;
+field.placeholder="Schreibe einen Kommentar …";
+article.appendChild(field);
+const send=document.createElement("button");
+send.textContent="Kommentar senden";
+send.addEventListener("click",()=>addComment(c,field,send));
+article.appendChild(send);
+}
+return article;
+}
+
 function render(){
- const q=$("search").value.trim().toLowerCase();
- $("publicGrid").replaceChildren();$("myGrid").replaceChildren();
- const demos=demoComics.filter(c=>(c.title+" "+c.description).toLowerCase().includes(q));
- const pub=publicComics.filter(c=>(c.title+" "+(c.description||"")).toLowerCase().includes(q));
- const mine=myComics.filter(c=>(c.title+" "+(c.description||"")).toLowerCase().includes(q));
- demos.forEach(c=>$("publicGrid").appendChild(comicCard(c,false)));
- pub.forEach(c=>$("publicGrid").appendChild(comicCard(c,false)));
- if(!demos.length&&!pub.length)$("publicGrid").appendChild(safeEl("p","Keine Comics gefunden.","muted"));
- if(!mine.length)$("myGrid").appendChild(safeEl("p",currentUser?"Du hast noch keine eigenen Comics.":"Melde dich an, um deine privaten Comics zu sehen.","muted"));
- mine.forEach(c=>$("myGrid").appendChild(comicCard(c,true)));
+const q=$("search").value.trim().toLowerCase();
+$("publicGrid").replaceChildren();
+$("myGrid").replaceChildren();
+const demos=demoComics.filter(c=>(c.title+" "+(c.description||"")).toLowerCase().includes(q));
+const pub=publicComics.filter(c=>(c.title+" "+(c.description||"")).toLowerCase().includes(q));
+const mine=myComics.filter(c=>(c.title+" "+(c.description||"")).toLowerCase().includes(q));
+demos.forEach(c=>$("publicGrid").appendChild(comicCard(c,false)));
+if(!pub.length&&!demos.length)$("publicGrid").appendChild(safeEl("p","Keine Comics gefunden.","muted"));
+if(!mine.length)$("myGrid").appendChild(safeEl("p",currentUser?"Du hast noch keine eigenen Comics.":"Melde dich an, um deine privaten Comics zu sehen.","muted"));
+pub.forEach(c=>$("publicGrid").appendChild(comicCard(c,false)));
+mine.forEach(c=>$("myGrid").appendChild(comicCard(c,true)));
 }
+
 async function openComic(c){
- if(!currentUser){message("Bitte melde dich an, um Comics zu öffnen.");return;}
- const {data,error}=await db.storage.from(STORAGE_BUCKET).createSignedUrl(c.file_path,3600);
- if(error||!data?.signedUrl){message("Comic konnte nicht geöffnet werden: "+(error?.message||"Keine Datei-URL."));return;}
- window.open(data.signedUrl,"_blank","noopener,noreferrer");
+if(!currentUser){message("Bitte melde dich an, um Comics zu öffnen.");return;}
+const {data,error}=await db.storage.from(STORAGE_BUCKET).createSignedUrl(c.file_path,3600);
+if(error||!data?.signedUrl){message("Comic konnte nicht geöffnet werden: "+(error?.message||"Keine Datei-URL."));return;}
+window.open(data.signedUrl,"_blank","noopener,noreferrer");
 }
+
 async function refreshAccount(){
- const {data,error}=await db.auth.getSession();if(error)message("Kontostatus: "+error.message);
- currentUser=data?.session?.user||null;
- $("accountStatus").textContent=currentUser?"Angemeldet als "+currentUser.email:"Du bist noch nicht angemeldet.";
- $("authForm").hidden=!!currentUser;$("logout").hidden=!currentUser;$("uploadButton").disabled=!currentUser;
- await loadComics();
+const {data,error}=await db.auth.getSession();
+if(error)message("Kontostatus: "+error.message);
+currentUser=data?.session?.user||null;
+$("accountStatus").textContent=currentUser?"Angemeldet als "+currentUser.email:"Du bist noch nicht angemeldet.";
+$("authForm").hidden=!!currentUser;
+$("logout").hidden=!currentUser;
+$("uploadButton").disabled=!currentUser;
+await loadComics();
 }
+
 async function loadComics(){
- if(currentUser){
-  const {data,error}=await db.from("comics").select("id,title,description,file_path,published,user_id,created_at").eq("user_id",currentUser.id).order("created_at",{ascending:false});
-  if(error)message("Eigene Comics konnten nicht geladen werden: "+error.message);myComics=data||[];
- }else myComics=[];
- const {data,error}=await db.from("comics").select("id,title,description,file_path,published,user_id,created_at").eq("published",true).order("created_at",{ascending:false});
- if(error){message("Öffentliche Comics konnten nicht geladen werden: "+error.message);publicComics=[];}
- else publicComics=await Promise.all((data||[]).map(async c=>{
-  const {data:likes}=await db.from("comic_reactions").select("reaction").eq("comic_id",c.id);
-  const {data:comments}=await db.from("comic_comments").select("id,body,user_id,created_at").eq("comic_id",c.id).order("created_at",{ascending:true});
-  return {...c,likes:(likes||[]).filter(x=>x.reaction===1).length,dislikes:(likes||[]).filter(x=>x.reaction===-1).length,comments:comments||[]};
- }));
- render();
+if(currentUser){
+const {data,error}=await db.from("comics").select("id,title,description,file_path,published,user_id,created_at").eq("user_id",currentUser.id).order("created_at",{ascending:false});
+if(error)message("Eigene Comics konnten nicht geladen werden: "+error.message);
+myComics=data||[];
+}else myComics=[];
+
+const {data,error}=await db.from("comics").select("id,title,description,file_path,published,user_id,created_at").eq("published",true).order("created_at",{ascending:false});
+if(error){message("Öffentliche Comics konnten nicht geladen werden: "+error.message);publicComics=[];}
+else{
+publicComics=await Promise.all((data||[]).map(async c=>{
+const {data:likes}=await db.from("comic_reactions").select("reaction").eq("comic_id",c.id);
+const {data:comments}=await db.from("comic_comments").select("id,body,user_id,author_name,created_at").eq("comic_id",c.id).order("created_at",{ascending:true});
+return {...c,likes:(likes||[]).filter(x=>x.reaction===1).length,dislikes:(likes||[]).filter(x=>x.reaction===-1).length,comments:comments||[]};
+}));
 }
+render();
+}
+
 async function setPublished(c,value,toggle){
- toggle.disabled=true;
- const {error}=await db.from("comics").update({published:value}).eq("id",c.id).eq("user_id",currentUser.id);
- if(error){toggle.checked=!value;message("Sichtbarkeit konnte nicht geändert werden: "+error.message);}
- else{message(value?"Dein Comic ist jetzt öffentlich.":"Dein Comic ist jetzt privat.");await loadComics();}
- toggle.disabled=false;
+toggle.disabled=true;
+const {error}=await db.from("comics").update({published:value}).eq("id",c.id).eq("user_id",currentUser.id);
+if(error){toggle.checked=!value;message("Sichtbarkeit konnte nicht geändert werden: "+error.message);}
+else{message(value?"Dein Comic ist jetzt öffentlich.":"Dein Comic ist jetzt privat.");await loadComics();}
+toggle.disabled=false;
 }
+
 async function deleteComic(c){
- if(!confirm(`Möchtest du „${c.title}“ wirklich dauerhaft löschen?`))return;
- const {error:fileError}=await db.storage.from(STORAGE_BUCKET).remove([c.file_path]);
- if(fileError){message("Datei konnte nicht gelöscht werden: "+fileError.message);return;}
- const {error}=await db.from("comics").delete().eq("id",c.id).eq("user_id",currentUser.id);
- if(error){message("Comic-Eintrag konnte nicht gelöscht werden: "+error.message);return;}
- message("Comic wurde gelöscht.");await loadComics();
+if(!confirm(`Möchtest du „${c.title}“ wirklich dauerhaft löschen?`))return;
+const {error:fileError}=await db.storage.from(STORAGE_BUCKET).remove([c.file_path]);
+if(fileError){message("Datei konnte nicht gelöscht werden: "+fileError.message);return;}
+const {error}=await db.from("comics").delete().eq("id",c.id).eq("user_id",currentUser.id);
+if(error){message("Comic-Eintrag konnte nicht gelöscht werden: "+error.message);return;}
+message("Comic wurde gelöscht.");
+await loadComics();
 }
+
 async function react(c,value){
- if(!currentUser){message("Bitte melde dich an, um Comics zu bewerten.");return;}
- const {error}=await db.from("comic_reactions").upsert({comic_id:c.id,user_id:currentUser.id,reaction:value},{onConflict:"comic_id,user_id"});
- if(error){message("Bewertung fehlgeschlagen: "+error.message);return;}
- message(value===1?"Like gespeichert.":"Dislike gespeichert.");await loadComics();
+if(!currentUser){message("Bitte melde dich an, um Comics zu bewerten.");return;}
+const {error}=await db.from("comic_reactions").upsert({comic_id:c.id,user_id:currentUser.id,reaction:value},{onConflict:"comic_id,user_id"});
+if(error){message("Bewertung fehlgeschlagen: "+error.message);return;}
+message(value===1?"Like gespeichert.":"Dislike gespeichert.");
+await loadComics();
 }
+
 async function addComment(c,field,button){
- if(!currentUser){message("Bitte melde dich an, um zu kommentieren.");return;}
- const body=field.value.trim();if(!body){message("Schreibe zuerst einen Kommentar.");return;}
- button.disabled=true;
- const {error}=await db.from("comic_comments").insert({comic_id:c.id,user_id:currentUser.id,body});
- button.disabled=false;
- if(error){message("Kommentar fehlgeschlagen: "+error.message);return;}
- message("Kommentar wurde veröffentlicht.");await loadComics();
+if(!currentUser){message("Bitte melde dich an, um zu kommentieren.");return;}
+const body=field.value.trim();
+if(!body){message("Schreibe zuerst einen Kommentar.");return;}
+const username=currentUser.user_metadata?.username||currentUser.email?.split("@")[0]||"Nutzer";
+button.disabled=true;
+const {error}=await db.from("comic_comments").insert({
+comic_id:c.id,
+user_id:currentUser.id,
+author_name:username,
+body
+});
+button.disabled=false;
+if(error){message("Kommentar fehlgeschlagen: "+error.message);return;}
+message("Kommentar wurde veröffentlicht.");
+await loadComics();
 }
+
 $("signup").addEventListener("click",async()=>{
- const email=$("email").value.trim(),password=$("password").value;
- if(!email||password.length<6){message("Bitte gültige E-Mail und ein Passwort mit mindestens 6 Zeichen eingeben.");return;}
- const {data,error}=await db.auth.signUp({email,password,options:{emailRedirectTo:"https://nikoschnitzel1412.github.io/NikosComics/"}});
- if(error){message("Registrierung fehlgeschlagen: "+error.message);return;}
- if(data.session){message("Registrierung erfolgreich!");await refreshAccount();}
- else message("Bitte bestätige deine E-Mail über den Link von Supabase und melde dich danach an.");
+const username=$("username").value.trim();
+const email=$("email").value.trim();
+const password=$("password").value;
+if(!username){message("Bitte gib einen Benutzernamen ein.");return;}
+if(!email||password.length<6){message("Bitte gültige E-Mail und ein Passwort mit mindestens 6 Zeichen eingeben.");return;}
+const {data,error}=await db.auth.signUp({
+email,
+password,
+options:{
+data:{username},
+emailRedirectTo:"https://nikoschnitzel1412.github.io/NikosComics/"
+}
 });
+if(error){message("Registrierung fehlgeschlagen: "+error.message);return;}
+if(data.session){message("Registrierung erfolgreich!");await refreshAccount();}
+else message("Bitte bestätige deine E-Mail über den Link von Supabase und melde dich danach an.");
+});
+
 $("login").addEventListener("click",async()=>{
- const {error}=await db.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});
- if(error){message("Anmeldung fehlgeschlagen: "+error.message);return;}
- message("Du bist angemeldet!");await refreshAccount();
+const {error}=await db.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});
+if(error){message("Anmeldung fehlgeschlagen: "+error.message);return;}
+message("Du bist angemeldet!");
+await refreshAccount();
 });
+
 $("logout").addEventListener("click",async()=>{
- const {error}=await db.auth.signOut();if(error){message("Abmeldung fehlgeschlagen: "+error.message);return;}
- message("Du wurdest abgemeldet.");await refreshAccount();
+const {error}=await db.auth.signOut();
+if(error){message("Abmeldung fehlgeschlagen: "+error.message);return;}
+message("Du wurdest abgemeldet.");
+await refreshAccount();
 });
+
 $("uploadButton").addEventListener("click",async()=>{
- if(!currentUser){message("Bitte melde dich zuerst an.");return;}
- const title=$("comicTitle").value.trim(),description=$("comicDescription").value.trim(),file=$("comicFile").files[0];
- if(!title||!file){message("Bitte gib einen Titel ein und wähle eine Datei aus.");return;}
- if(file.size>10*1024*1024){message("Die Datei ist größer als 10 MB.");return;}
- if(!["application/pdf","image/png","image/jpeg"].includes(file.type)){message("Bitte wähle eine PDF-, PNG- oder JPG-Datei.");return;}
- $("uploadButton").disabled=true;message("Comic wird hochgeladen …");let path=null;
- try{
-  const safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");path=currentUser.id+"/"+crypto.randomUUID()+"-"+safeName;
-  const {error:uploadError}=await db.storage.from(STORAGE_BUCKET).upload(path,file,{contentType:file.type,upsert:false});if(uploadError)throw uploadError;
-  const {error:insertError}=await db.from("comics").insert({title,description,user_id:currentUser.id,file_path:path,published:false});
-  if(insertError){await db.storage.from(STORAGE_BUCKET).remove([path]);throw insertError;}
-  $("comicTitle").value="";$("comicDescription").value="";$("comicFile").value="";
-  message("Comic erfolgreich hochgeladen! Er ist zunächst privat.");await loadComics();
- }catch(err){message("Upload fehlgeschlagen: "+(err.message||"Bitte Supabase-Berechtigungen prüfen."));}
- finally{$("uploadButton").disabled=!currentUser;}
+if(!currentUser){message("Bitte melde dich zuerst an.");return;}
+const title=$("comicTitle").value.trim();
+const description=$("comicDescription").value.trim();
+const file=$("comicFile").files[0];
+if(!title||!file){message("Bitte gib einen Titel ein und wähle eine Datei aus.");return;}
+if(file.size>10*1024*1024){message("Die Datei ist größer als 10 MB.");return;}
+if(!["application/pdf","image/png","image/jpeg"].includes(file.type)){message("Bitte wähle eine PDF-, PNG- oder JPG-Datei.");return;}
+$("uploadButton").disabled=true;
+message("Comic wird hochgeladen …");
+let path=null;
+try{
+const safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
+path=currentUser.id+"/"+crypto.randomUUID()+"-"+safeName;
+const {error:uploadError}=await db.storage.from(STORAGE_BUCKET).upload(path,file,{contentType:file.type,upsert:false});
+if(uploadError)throw uploadError;
+const {error:insertError}=await db.from("comics").insert({title,description,user_id:currentUser.id,file_path:path,published:false});
+if(insertError){await db.storage.from(STORAGE_BUCKET).remove([path]);throw insertError;}
+$("comicTitle").value="";
+$("comicDescription").value="";
+$("comicFile").value="";
+message("Comic erfolgreich hochgeladen! Er ist zunächst privat.");
+await loadComics();
+}catch(err){
+message("Upload fehlgeschlagen: "+(err.message||"Bitte Supabase-Berechtigungen prüfen."));
+}finally{
+$("uploadButton").disabled=!currentUser;
+}
 });
+
 $("search").addEventListener("input",render);
 db.auth.onAuthStateChange(()=>setTimeout(refreshAccount,0));
 refreshAccount();
