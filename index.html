@@ -24,7 +24,7 @@ button:hover{opacity:.86}button:disabled{opacity:.5;cursor:not-allowed}
 .comic{margin:0;overflow-wrap:anywhere}
 .cover{min-height:100px;display:grid;place-items:center;font-size:46px;border-radius:10px;background:linear-gradient(135deg,#422080,#ed3763)}
 .category-card{padding:0;overflow:hidden;text-align:center;background:#202035;border:1px solid #35354b;border-radius:16px;cursor:pointer;color:white;width:100%;margin:0}
-.category-picture{height:155px;display:grid;place-items:center;font-size:70px;background:linear-gradient(135deg,#422080,#ed3763)}
+.category-picture{height:220px;
 .category-name{display:block;padding:15px;font-size:18px;font-weight:bold}
 .category-card:hover{transform:translateY(-3px);border-color:#ff3158}
 .back-button{margin:0 0 18px}
@@ -198,7 +198,7 @@ img.src = imageFiles[group.category];
 img.alt = group.category;
 img.style.width = "100%";
 img.style.height = "100%";
-img.style.objectFit = "cover";
+img.style.objectFit = "contain";
 
 picture.appendChild(img);
 card.appendChild(picture);
