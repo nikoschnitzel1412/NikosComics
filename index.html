@@ -179,7 +179,29 @@ demoTitles.forEach(group=>{
 const card=document.createElement("button");
 card.className="category-card";
 card.type="button";
-card.appendChild(safeEl("div",group.emoji,"category-picture"));
+const picture = document.createElement("div");
+picture.className = "category-picture";
+
+const imageFiles = {
+  "Superhelden": "superhelden.png",
+  "Manga": "manga.png",
+  "Fantasy": "fantasy.png",
+  "Abenteuer": "abenteuer.png",
+  "Science-Fiction": "science-fiction.png",
+  "Humor": "humor.png",
+  "Mystery & Horror": "mystery-horror.png",
+  "Sport": "sport.png"
+};
+
+const img = document.createElement("img");
+img.src = imageFiles[group.category];
+img.alt = group.category;
+img.style.width = "100%";
+img.style.height = "100%";
+img.style.objectFit = "cover";
+
+picture.appendChild(img);
+card.appendChild(picture);
 card.appendChild(safeEl("span",group.category,"category-name"));
 card.addEventListener("click",()=>showCategory(group.category));
 grid.appendChild(card);
