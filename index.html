@@ -220,7 +220,39 @@ return el;
 function comicCard(c,own){
 const article=document.createElement("article");
 article.className="comic";
-article.appendChild(safeEl("div","📖","cover"));
+const coverFiles = {
+  "Neon Samurai": "neon-samurai.png",
+  "Klingen des Windes": "klingen-des-windes.png",
+  "Der kleine Dojo-Held": "der-kleine-dojo-held.png",
+  "Schattenkatana": "schattenkatana.png",
+  "Mondschul-Akademie": "mondschul-akademie.png",
+  "Drachenherz": "drachenherz.png",
+  "Geisterbahn Tokio": "geisterbahn-tokio.png",
+  "Der letzte Ninja": "der-letzte-ninja.png"
+};
+
+const coverFile = c.demo ? coverFiles[c.title] : null;
+
+if (coverFile) {
+  const cover = document.createElement("div");
+  cover.className = "cover";
+  cover.style.height = "140px";
+  cover.style.padding = "0";
+  cover.style.overflow = "hidden";
+  cover.style.display = "block";
+
+  const img = document.createElement("img");
+  img.src = coverFile;
+  img.alt = c.title;
+  img.style.width = "100%";
+  img.style.height = "100%";
+  img.style.objectFit = "cover";
+
+  cover.appendChild(img);
+  article.appendChild(cover);
+} else {
+  article.appendChild(safeEl("div", "📖", "cover"));
+}
 article.appendChild(safeEl("h3",c.title));
 article.appendChild(safeEl("p",c.description||"Keine Beschreibung","muted"));
 
